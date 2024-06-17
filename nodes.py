@@ -45,6 +45,9 @@ class UniAnimateNode:
             "required":{
                 "ref_name":("IMAGE",),
                 "pose_dir":("SEQUNCE",),
+                "base_config":(["UniAnimate_infer_long.yaml","UniAnimate_infer.yaml"],{
+                    "default": "UniAnimate_infer.yaml"
+                }),
                 "frame_interval":([1,2],{
                     "default": 2,
                 }),
@@ -56,6 +59,9 @@ class UniAnimateNode:
                 }),
                 "context_overlap":([8,16],{
                     "default":8
+                }),
+                "use_fp16":("BOOLEAN",{
+                    "default":True
                 }),
 
             }
@@ -69,15 +75,16 @@ class UniAnimateNode:
 
     CATEGORY = "AIFSH_UniAnimate"
 
-    def generate(self,ref_name,pose_dir,frame_interval,max_frames,resolution,context_overlap):
-        default_yaml_path = os.path.join(now_dir,"UniAnimate", "configs","UniAnimate_infer_long.yaml")
+    def generate(self,ref_name,pose_dir,base_config,frame_interval,max_frames,resolution,context_overlap,use_fp16):
+        default_yaml_path = os.path.join(now_dir,"UniAnimate", "configs",base_config)
 
         with open(default_yaml_path, 'r', encoding="utf-8") as f:
             yaml_data = yaml.load(f.read(),Loader=yaml.SafeLoader)
         
         log_dir = os.path.join(output_dir,"UniAnimate","log")
         yaml_data['log_dir'] = os.path.join(output_dir,"UniAnimate","log")
-        os.makedirs(log_dir)
+        os.makedirs(log_dir,exist_ok=True)
+        yaml_data['use_fp16'] = use_fp16
         yaml_data["max_frames"] = max_frames
         yaml_data['resolution'] = [512, 768] if '512' in resolution else [768, 1216]
         yaml_data['context_overlap'] = context_overlap
@@ -95,7 +102,7 @@ class UniAnimateNode:
         cmd = f"""{python_exec} {py_path} --cfg "{tmp_yaml_path}" """
         print(cmd)
         os.system(cmd)
-        os.remove(tmp_yaml_path)
+        #os.remove(tmp_yaml_path)
         return (py_path, )
 
 class LoadImagePath:
@@ -158,7 +165,10 @@ class LoadVideo:
     def load_video(self, video):
         video_path = os.path.join(input_dir,video)
         video_clip = VideoFileClip(video_path)
-        audio_path = os.path.join(input_dir,video+".wav")
-        video_clip.audio.write_audiofile(audio_path)
+        try:
+            audio_path = os.path.join(input_dir,video+".wav")
+            video_clip.audio.write_audiofile(audio_path)
+        except:
+            print("no audio")
         return (video_path,audio_path,)
 

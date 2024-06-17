@@ -7,5 +7,5 @@ opencv-python
 rotary-embedding-torch
 fairscale
 imageio-ffmpeg
-xformers
 pytorch_lightning
+easydict

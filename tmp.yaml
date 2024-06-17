@@ -1,0 +1,104 @@
+CPU_CLIP_VAE: true
+Diffusion:
+  loss_type: mse
+  mean_type: v
+  noise_strength: 0.1
+  rescale_timesteps: false
+  schedule: linear_sd
+  schedule_param:
+    init_beta: 0.00085
+    last_beta: 0.012
+    num_timesteps: 1000
+    zero_terminal_snr: true
+  type: DiffusionDDIM
+  var_type: fixed_small
+TASK_TYPE: inference_unianimate_entrance
+UNet:
+  config: None
+  context_dim: 1024
+  dim: 320
+  dim_mult:
+  - 1
+  - 2
+  - 4
+  - 4
+  dropout: 0.1
+  head_dim: 64
+  in_dim: 4
+  num_heads: 8
+  num_res_blocks: 2
+  num_tokens: 4
+  out_dim: 4
+  temporal_attention: true
+  temporal_attn_times: 1
+  type: UNetSD_UniAnimate
+  use_checkpoint: true
+  use_fps_condition: false
+  use_sim_mask: false
+  y_dim: 1024
+auto_encoder:
+  ddconfig:
+    attn_resolutions: []
+    ch: 128
+    ch_mult:
+    - 1
+    - 2
+    - 4
+    - 4
+    double_z: true
+    dropout: 0.0
+    in_channels: 3
+    num_res_blocks: 2
+    out_ch: 3
+    resolution: 256
+    video_kernel_size:
+    - 3
+    - 1
+    - 1
+    z_channels: 4
+  embed_dim: 4
+  pretrained: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/v2-1_512-ema-pruned.ckpt
+  type: AutoencoderKL
+batch_size: 1
+chunk_size: 2
+context_overlap: 8
+ddim_timesteps: 30
+decoder_bs: 2
+embedder:
+  layer: penultimate
+  pretrained: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/open_clip_pytorch_model.bin
+  type: FrozenOpenCLIPTextVisualEmbedder
+guide_scale: 2.5
+latent_random_ref: true
+log_dir: /root/ComfyUI/output/UniAnimate/log
+max_frames: 32
+partial_keys:
+- - image
+  - local_image
+  - dwpose
+- - image
+  - randomref
+  - dwpose
+resolution:
+- 512
+- 768
+round: 1
+scale: 8
+seed: 11
+test_list_path:
+- - 2
+  - /root/ComfyUI/input/WOMEN-Blouses_Shirts-id_00004955-01_4_full.jpg
+  - /root/ComfyUI/output/UniAnimate/source_video
+test_model: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/unianimate_16f_32f_non_ema_223000.pth
+use_DiffusionDPM: false
+use_fp16: false
+use_fps_condition: false
+video_compositions:
+- image
+- local_image
+- dwpose
+- randomref
+- randomref_pose
+vit_resolution:
+- 224
+- 224
