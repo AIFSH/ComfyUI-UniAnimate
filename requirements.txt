@@ -1,7 +1,7 @@
 moviepy
 PyYAML
 modelscope
-onnxruntime
+onnxruntime-gpu
 open-clip-torch
 opencv-python
 rotary-embedding-torch
@@ -9,3 +9,5 @@ fairscale
 imageio-ffmpeg
 pytorch_lightning
 easydict
+matplotlib
+pynvml

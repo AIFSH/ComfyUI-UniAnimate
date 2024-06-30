@@ -57,7 +57,7 @@ auto_encoder:
     - 1
     z_channels: 4
   embed_dim: 4
-  pretrained: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/v2-1_512-ema-pruned.ckpt
+  pretrained: D:\ComfyUI-UniAnimate-Onekey\ComfyUI\custom_nodes\ComfyUI-UniAnimate\UniAnimate\checkpoints\v2-1_512-ema-pruned.ckpt
   type: AutoencoderKL
 batch_size: 1
 chunk_size: 2
@@ -66,11 +66,11 @@ ddim_timesteps: 30
 decoder_bs: 2
 embedder:
   layer: penultimate
-  pretrained: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/open_clip_pytorch_model.bin
+  pretrained: D:\ComfyUI-UniAnimate-Onekey\ComfyUI\custom_nodes\ComfyUI-UniAnimate\UniAnimate\checkpoints\open_clip_pytorch_model.bin
   type: FrozenOpenCLIPTextVisualEmbedder
 guide_scale: 2.5
 latent_random_ref: true
-log_dir: /root/ComfyUI/output/UniAnimate/log
+log_dir: D:\ComfyUI-UniAnimate-Onekey\ComfyUI\output\UniAnimate\log
 max_frames: 32
 partial_keys:
 - - image
@@ -87,11 +87,11 @@ scale: 8
 seed: 11
 test_list_path:
 - - 2
-  - /root/ComfyUI/input/WOMEN-Blouses_Shirts-id_00004955-01_4_full.jpg
-  - /root/ComfyUI/output/UniAnimate/source_video
-test_model: /root/ComfyUI/custom_nodes/ComfyUI-UniAnimate/UniAnimate/checkpoints/unianimate_16f_32f_non_ema_223000.pth
+  - D:\ComfyUI-UniAnimate-Onekey\ComfyUI\input\musk.jpg
+  - D:\ComfyUI-UniAnimate-Onekey\ComfyUI\output\UniAnimate\source_video
+test_model: D:\ComfyUI-UniAnimate-Onekey\ComfyUI\custom_nodes\ComfyUI-UniAnimate\UniAnimate\checkpoints\unianimate_16f_32f_non_ema_223000.pth
 use_DiffusionDPM: false
-use_fp16: false
+use_fp16: true
 use_fps_condition: false
 video_compositions:
 - image

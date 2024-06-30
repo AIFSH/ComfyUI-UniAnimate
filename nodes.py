@@ -15,7 +15,7 @@ class PoseAlignNode:
     def INPUT_TYPES(s):
         return {
             "required":{
-                "ref_name":("IMAGE",),
+                "ref_name":("IMAGEPATH",),
                 "source_video_path":("VIDEO",)
             }
         }
@@ -43,7 +43,7 @@ class UniAnimateNode:
     def INPUT_TYPES(s):
         return {
             "required":{
-                "ref_name":("IMAGE",),
+                "ref_name":("IMAGEPATH",),
                 "pose_dir":("SEQUNCE",),
                 "base_config":(["UniAnimate_infer_long.yaml","UniAnimate_infer.yaml"],{
                     "default": "UniAnimate_infer.yaml"
@@ -75,7 +75,7 @@ class UniAnimateNode:
 
     CATEGORY = "AIFSH_UniAnimate"
 
-    def generate(self,ref_name,pose_dir,base_config,frame_interval,max_frames,resolution,context_overlap,use_fp16):
+    def generate(self,ref_name,base_config,frame_interval,max_frames,resolution,context_overlap,use_fp16):
         default_yaml_path = os.path.join(now_dir,"UniAnimate", "configs",base_config)
 
         with open(default_yaml_path, 'r', encoding="utf-8") as f:
@@ -88,6 +88,7 @@ class UniAnimateNode:
         yaml_data["max_frames"] = max_frames
         yaml_data['resolution'] = [512, 768] if '512' in resolution else [768, 1216]
         yaml_data['context_overlap'] = context_overlap
+        # pose_dir = os.path.join(output_dir,"UniAnimate","source_video")
         yaml_data['test_list_path'] = [
             [frame_interval,ref_name,pose_dir]
         ]
@@ -116,7 +117,7 @@ class LoadImagePath:
 
     CATEGORY = "AIFSH_UniAnimate"
 
-    RETURN_TYPES = ("IMAGE",)
+    RETURN_TYPES = ("IMAGEPATH",)
     FUNCTION = "load_image"
     def load_image(self, image):
         image_path = folder_paths.get_annotated_filepath(image)
